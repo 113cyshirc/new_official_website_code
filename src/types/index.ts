@@ -4,7 +4,7 @@ export interface Activity {
   description: string;
   date: string;
   image: string;
-  category: 'workshop' | 'competition' | 'seminar' | 'project';
+  category: 'workshop' | 'competition' | 'seminar' | 'project' | 'activity';
   features?: string[]; // 活動特色
   schedule?: { time: string; description: string }[]; // 行程
   location?: string; // 地點

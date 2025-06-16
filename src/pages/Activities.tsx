@@ -31,6 +31,7 @@ const Activities: React.FC = () => {
     { value: 'competition', label: '競賽 / Competitions' },
     { value: 'seminar', label: '講座 / Seminars' },
     { value: 'project', label: '專案 / Projects' },
+    { value: 'activity', label: '活動 / activity'},
   ];
 
   const getCategoryColor = (category: string) => {
@@ -58,6 +59,8 @@ const Activities: React.FC = () => {
         return '講座 / Seminar';
       case 'project':
         return '專案 / Project';
+      case 'activiy':
+        return '活動 / activity';
       default:
         return category;
     }

@@ -29,6 +29,22 @@ const ActivityDetail: React.FC = () => {
   }
 
   const formatDate = (dateString: string) => {
+    // 處理跨天日期格式，例如 '2024-08-10 to 2024-08-11'
+    if (dateString.includes(' to ')) {
+      const [startDate, endDate] = dateString.split(' to ');
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      return `${start.toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })} 至 ${end.toLocaleDateString('zh-TW', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })}`;
+    }
+    // 單日日期
     const date = new Date(dateString);
     return date.toLocaleDateString('zh-TW', {
       year: 'numeric',
@@ -62,19 +78,27 @@ const ActivityDetail: React.FC = () => {
         return '講座 / Seminar';
       case 'project':
         return '專案 / Project';
+      case 'activity':
+        return '活動 / activity';
       default:
         return category;
     }
   };
 
-  // 檢查活動是否已結束
-  const isEventEnded = new Date(activity.date) < currentDate;
+  // 檢查活動是否已結束，對於跨天活動使用最後一天
+  const isEventEnded = (() => {
+    if (activity.date.includes(' to ')) {
+      const [, endDate] = activity.date.split(' to ');
+      return new Date(endDate) < currentDate;
+    }
+    return new Date(activity.date) < currentDate;
+  })();
 
   return (
     <div className="pt-20 min-h-screen bg-gray-50">
       <div className="relative h-96">
         <img
-          src={activity.image}
+          src={activity.image || 'https://via.placeholder.com/1200x400'}
           alt={activity.title}
           className="w-full h-full object-cover"
         />
